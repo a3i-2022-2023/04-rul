@@ -328,12 +328,12 @@ def build_cnn_model(input_shape, output_shape, wlen, conv=[], hidden=[], output_
     model_in = keras.Input(shape=input_shape, dtype='float32')
     x = model_in
     for k in conv:
-        model_out = layers.Conv1D(k, kernel_size=3, activation='relu')(x)
-    model_out = layers.Flatten()(model_out)
+        x = layers.Conv1D(k, kernel_size=3, activation='relu')(x)
+    x = layers.Flatten()(x)
     for k in hidden:
-        model_out = layers.Dense(k, activation='relu')(model_out)
-    model_out = layers.Dense(output_shape, activation=output_activation)(model_out)
-    model = keras.Model(model_in, model_out)
+        x = layers.Dense(k, activation='relu')(x)
+    x = layers.Dense(output_shape, activation=output_activation)(x)
+    model = keras.Model(model_in, x)
     return model
 
 
